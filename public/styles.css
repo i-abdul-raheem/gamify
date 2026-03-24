@@ -1026,13 +1026,13 @@ body[data-page="home"][data-auth="guest"] .tabbar {
   }
 
   body[data-page="home"] .hero-card {
-    grid-column: 1;
+    grid-column: 1 / -1;
     margin-bottom: 0;
-    min-height: 100%;
+    min-height: auto;
   }
 
   body[data-page="home"] .stats-grid {
-    grid-column: 2;
+    grid-column: 1;
     align-self: start;
     margin: 0;
   }
