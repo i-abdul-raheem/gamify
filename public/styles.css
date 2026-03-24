@@ -359,6 +359,26 @@ h3 {
   margin: 0 0 24px;
 }
 
+body[data-page="home"] .hero-card h1 {
+  max-width: 16ch;
+}
+
+body[data-page="home"] .hero-card .hero-text {
+  max-width: 56ch;
+}
+
+body[data-page="home"] .hero-card {
+  padding: 28px 30px 30px;
+}
+
+body[data-page="home"] .stats-grid {
+  margin: 20px 0 0;
+}
+
+body[data-page="home"] .panel-featured {
+  margin-top: 20px;
+}
+
 .support-copy {
   margin: 14px 0 0;
   color: var(--muted);
@@ -1016,6 +1036,7 @@ body[data-page="home"][data-auth="guest"] .tabbar {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
     grid-column: 1 / -1;
+    row-gap: 22px;
     min-height: 0;
     overflow: auto;
   }
@@ -1025,21 +1046,28 @@ body[data-page="home"][data-auth="guest"] .tabbar {
     grid-column: 1 / -1;
   }
 
+  body[data-page="home"] .topbar {
+    margin-bottom: 10px;
+  }
+
   body[data-page="home"] .hero-card {
     grid-column: 1 / -1;
     margin-bottom: 0;
     min-height: auto;
+    padding: 34px 36px 36px;
   }
 
   body[data-page="home"] .stats-grid {
     grid-column: 1;
     align-self: start;
     margin: 0;
+    gap: 18px;
   }
 
   body[data-page="home"] .panel-featured {
     grid-column: 2;
     margin-top: 0;
+    align-self: start;
   }
 
   body[data-page="home"] .tabbar {
