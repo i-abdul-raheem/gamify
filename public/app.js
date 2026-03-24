@@ -280,7 +280,19 @@ function renderAuthControls() {
   }
 
   if (!state.user) {
-    authSlot.innerHTML = `<a class="auth-button auth-button-login" href="/auth/google">Continue with Google</a>`;
+    authSlot.innerHTML = `
+      <a class="google-signin-button" href="/auth/google">
+        <span class="google-signin-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#EA4335" d="M9 7.364v3.562h4.95c-.218 1.146-.872 2.117-1.854 2.77l3 2.327c1.746-1.61 2.754-3.982 2.754-6.796 0-.654-.058-1.281-.167-1.863H9z"/>
+            <path fill="#34A853" d="M3.636 10.713 2.96 11.23.567 13.094A8.99 8.99 0 0 0 9 18c2.43 0 4.468-.803 5.954-2.177l-3-2.327c-.803.54-1.826.859-2.954.859-2.32 0-4.289-1.567-4.995-3.68l-.369.028z"/>
+            <path fill="#4A90E2" d="M.567 4.906A9 9 0 0 0 0 9c0 1.468.352 2.857.967 4.094l3.07-2.38A5.41 5.41 0 0 1 3.745 9c0-.598.103-1.178.292-1.713l-3.47-2.38z"/>
+            <path fill="#FBBC05" d="M9 3.58c1.322 0 2.51.455 3.444 1.347l2.583-2.584C13.462.893 11.425 0 9 0A8.99 8.99 0 0 0 .567 4.906l3.47 2.38C4.744 5.173 6.713 3.58 9 3.58z"/>
+          </svg>
+        </span>
+        <span>Sign in with Google</span>
+      </a>
+    `;
     return;
   }
 
