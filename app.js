@@ -2,9 +2,11 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
+const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
+const { OAuth2Client } = require("google-auth-library");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const {
   connectDatabase,
@@ -25,6 +27,14 @@ const mongoUri = process.env.MONGODB_URI;
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 const googleCallbackUrl = process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback";
+const mobileJwtSecret = process.env.MOBILE_JWT_SECRET || `${sessionSecret}-mobile`;
+const googleAudienceIds = [
+  googleClientId,
+  process.env.GOOGLE_ANDROID_CLIENT_ID,
+  process.env.GOOGLE_IOS_CLIENT_ID,
+  process.env.GOOGLE_WEB_CLIENT_ID
+].filter(Boolean);
+const googleTokenClient = googleAudienceIds.length ? new OAuth2Client() : null;
 
 let isPassportConfigured = false;
 
@@ -99,6 +109,31 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(async (req, _res, next) => {
+  if (req.user) {
+    next();
+    return;
+  }
+
+  const authorization = req.headers.authorization || "";
+
+  if (!authorization.startsWith("Bearer ")) {
+    next();
+    return;
+  }
+
+  try {
+    const token = authorization.slice("Bearer ".length);
+    const payload = jwt.verify(token, mobileJwtSecret);
+    const user = await getUserById(payload.sub);
+
+    if (user) {
+      req.user = user;
+    }
+  } catch (_error) {}
+
+  next();
+});
 app.use(express.static(publicDir));
 
 app.get("/", (_req, res) => {
@@ -132,6 +167,47 @@ app.get("/auth/google", (req, res, next) => {
   }
 
   passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next);
+});
+
+app.post("/api/mobile/auth/google", async (req, res, next) => {
+  if (!googleTokenClient || !googleAudienceIds.length) {
+    res.status(500).json({ error: "Google OAuth is not configured." });
+    return;
+  }
+
+  const idToken = req.body.idToken?.trim();
+
+  if (!idToken) {
+    res.status(400).json({ error: "Google ID token is required." });
+    return;
+  }
+
+  try {
+    const ticket = await googleTokenClient.verifyIdToken({
+      idToken,
+      audience: googleAudienceIds
+    });
+    const payload = ticket.getPayload();
+
+    if (!payload?.sub) {
+      res.status(401).json({ error: "Invalid Google token." });
+      return;
+    }
+
+    const user = await findOrCreateUser({
+      id: payload.sub,
+      displayName: payload.name || "Goal Quest User",
+      emails: [{ value: payload.email || `${payload.sub}@example.com` }],
+      photos: [{ value: payload.picture || "" }]
+    });
+
+    res.json({
+      token: createMobileToken(user),
+      user: serializeUser(user)
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get(
@@ -178,12 +254,7 @@ app.get("/api/auth/me", (req, res) => {
 
   res.json({
     authenticated: true,
-    user: {
-      id: req.user.id,
-      displayName: req.user.displayName,
-      email: req.user.email,
-      avatarUrl: req.user.avatarUrl
-    }
+    user: serializeUser(req.user)
   });
 });
 
@@ -298,12 +369,27 @@ app.use((error, _req, res, _next) => {
 });
 
 function ensureAuthenticated(req, res, next) {
-  if (!req.isAuthenticated || !req.isAuthenticated()) {
+  if (!req.user) {
     res.status(401).json({ error: "Authentication required." });
     return;
   }
 
   next();
+}
+
+function serializeUser(user) {
+  return {
+    id: user.id,
+    displayName: user.displayName,
+    email: user.email,
+    avatarUrl: user.avatarUrl
+  };
+}
+
+function createMobileToken(user) {
+  return jwt.sign({ sub: user.id, type: "mobile" }, mobileJwtSecret, {
+    expiresIn: "30d"
+  });
 }
 
 module.exports = { app, databaseReady };
