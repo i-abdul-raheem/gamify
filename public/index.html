@@ -16,7 +16,7 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body data-page="home">
+  <body data-page="home" data-auth="pending">
     <div class="aurora aurora-one"></div>
     <div class="aurora aurora-two"></div>
     <main class="app-shell">
@@ -67,8 +67,47 @@
           <a class="tabbar-link" href="/create">Create</a>
           <a class="tabbar-link" href="/quests">Quests</a>
         </nav>
+
+        <div class="auth-loading" id="authLoading">
+          <div class="auth-loading-mark"></div>
+          <p>Loading Goal Quest...</p>
+        </div>
       </section>
     </main>
+
+    <template id="guestHomeTemplate">
+      <section class="guest-home">
+        <header class="guest-hero">
+          <p class="eyebrow">Goal Quest</p>
+          <h1>Turn ambition into a game you actually want to play.</h1>
+          <p class="hero-text">
+            Sign in to create quests, break them into sessions, track momentum, and keep everything synced to your account.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="/auth/google">Sign in with Google</a>
+          </div>
+        </header>
+
+        <section class="guest-grid">
+          <article class="panel guest-panel">
+            <p class="section-label">How It Works</p>
+            <h2>Build goals as quests</h2>
+            <p class="support-copy">Create a goal, attach tasks, set reminders, and earn XP as you complete focused sessions.</p>
+          </article>
+          <article class="panel guest-panel">
+            <p class="section-label">Why It Helps</p>
+            <h2>Keep momentum visible</h2>
+            <p class="support-copy">See progress, keep streak energy high, and make your goals feel structured instead of vague.</p>
+          </article>
+        </section>
+
+        <p class="guest-credit">
+          Created By: Abdul Raheem
+          <a href="https://github.com/i-abdul-raheem" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/i-am-abdul-raheem" target="_blank" rel="noreferrer">LinkedIn</a>
+        </p>
+      </section>
+    </template>
 
     <script src="/app.js"></script>
   </body>

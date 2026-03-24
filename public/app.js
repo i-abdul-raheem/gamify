@@ -7,6 +7,7 @@ const state = {
 const page = document.body.dataset.page;
 const notifyButton = document.querySelector("#notifyButton");
 const authSlot = document.querySelector("#authSlot");
+const authLoading = document.querySelector("#authLoading");
 const primaryCta = document.querySelector("#primaryCta");
 const secondaryCta = document.querySelector("#secondaryCta");
 const goalForm = document.querySelector("#goalForm");
@@ -14,6 +15,7 @@ const taskForm = document.querySelector("#taskForm");
 const goalsList = document.querySelector("#goalsList");
 const statsGrid = document.querySelector("#statsGrid");
 const homeGoalPreview = document.querySelector("#homeGoalPreview");
+const guestHomeTemplate = document.querySelector("#guestHomeTemplate");
 const questHero = document.querySelector("#questHero");
 const questPageHeading = document.querySelector("#questPageHeading");
 const taskBoard = document.querySelector("#taskBoard");
@@ -40,7 +42,7 @@ async function initialize() {
   render();
 
   if (!state.user && isProtectedPage()) {
-    redirectToGoogleAuth();
+    redirectToHome();
     return;
   }
 
@@ -52,16 +54,18 @@ async function initialize() {
 }
 
 function isProtectedPage() {
-  return page === "home" || page === "create" || page === "quests" || page === "quest";
+  return page === "create" || page === "quests" || page === "quest";
 }
 
 async function refreshAuthState() {
   try {
     const data = await requestJson("/api/auth/me");
     state.user = data.user;
+    document.body.dataset.auth = "authenticated";
   } catch (error) {
     if (error.status === 401) {
       state.user = null;
+      document.body.dataset.auth = "guest";
       return;
     }
 
@@ -194,6 +198,8 @@ async function refreshActiveGoal() {
 
 function render() {
   const permission = "Notification" in window ? Notification.permission : "unsupported";
+  renderGuestHome();
+  renderAuthLoading();
   renderNotifyButton(permission);
   renderAuthControls();
   renderHomeCtas();
@@ -201,6 +207,42 @@ function render() {
   renderHomePreview();
   renderQuestDirectory();
   renderQuestDetail();
+}
+
+function renderAuthLoading() {
+  if (!authLoading || page !== "home") {
+    return;
+  }
+
+  const isPending = document.body.dataset.auth === "pending";
+  authLoading.hidden = !isPending;
+}
+
+function renderGuestHome() {
+  if (page !== "home" || !guestHomeTemplate) {
+    return;
+  }
+
+  const appContent = document.querySelector(".app-content");
+  const tabbar = document.querySelector(".tabbar");
+
+  if (!appContent || !tabbar) {
+    return;
+  }
+
+  if (!state.user) {
+    appContent.hidden = false;
+    tabbar.hidden = true;
+    if (!appContent.dataset.guestRendered) {
+      appContent.innerHTML = "";
+      const fragment = guestHomeTemplate.content.cloneNode(true);
+      appContent.appendChild(fragment);
+      appContent.dataset.guestRendered = "true";
+    }
+    return;
+  }
+
+  tabbar.hidden = false;
 }
 
 function renderNotifyButton(permission) {

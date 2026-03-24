@@ -782,6 +782,47 @@ input:focus {
   color: var(--sky);
 }
 
+.guest-home {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+  height: 100%;
+  padding-bottom: 8px;
+}
+
+.guest-hero {
+  padding: 28px 24px;
+  border-radius: 32px;
+  background:
+    linear-gradient(145deg, rgba(255, 191, 105, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(8, 19, 34, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.guest-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.guest-panel {
+  margin-top: 0;
+}
+
+.guest-credit {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.guest-credit a {
+  color: var(--gold);
+  font-weight: 600;
+  margin-left: 8px;
+}
+
 .tabbar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -810,6 +851,44 @@ input:focus {
 .tabbar-link.is-active {
   background: linear-gradient(135deg, rgba(255, 191, 105, 0.2), rgba(141, 216, 255, 0.18));
   color: var(--text);
+}
+
+body[data-page="home"][data-auth="pending"] .app-content,
+body[data-page="home"][data-auth="pending"] .tabbar,
+body[data-page="home"][data-auth="guest"] .tabbar {
+  display: none;
+}
+
+.auth-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 191, 105, 0.12), transparent 28%),
+    linear-gradient(160deg, #07111f 0%, #091728 60%, #07111f 100%);
+  text-align: center;
+}
+
+.auth-loading[hidden] {
+  display: none;
+}
+
+.auth-loading-mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: var(--gold);
+  animation: spin 0.9s linear infinite;
+}
+
+.auth-loading p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
 }
 
 @media (min-width: 900px) {
@@ -899,6 +978,28 @@ input:focus {
     grid-column: 1 / -1;
   }
 
+  body[data-page="home"][data-auth="guest"] .phone-frame {
+    display: block;
+  }
+
+  body[data-page="home"][data-auth="guest"] .app-content {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  .guest-home {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    align-content: center;
+  }
+
+  .guest-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   body[data-page="create"] .tabbar {
     grid-column: 1 / -1;
   }
@@ -975,6 +1076,16 @@ input:focus {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
