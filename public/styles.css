@@ -1281,6 +1281,7 @@ body[data-page="home"][data-auth="guest"] .tabbar {
 
   .topbar {
     align-items: center;
+    z-index: 40;
   }
 
   .topbar-brand {
@@ -1293,9 +1294,9 @@ body[data-page="home"][data-auth="guest"] .tabbar {
   }
 
   .topbar-actions {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
+    position: fixed;
+    top: calc(env(safe-area-inset-top) + 76px);
+    right: 14px;
     left: auto;
     display: none;
     width: min(270px, calc(100vw - 28px));
@@ -1306,7 +1307,7 @@ body[data-page="home"][data-auth="guest"] .tabbar {
     background: rgba(8, 17, 31, 0.96);
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.32);
     backdrop-filter: blur(18px);
-    z-index: 30;
+    z-index: 60;
   }
 
   .topbar[data-menu-open="true"] .topbar-actions {
