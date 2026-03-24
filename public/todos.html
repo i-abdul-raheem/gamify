@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Goal Quest" />
-    <title>Create Goal • Goal Quest</title>
+    <title>Todos • Goal Quest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -16,7 +16,7 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body data-page="create" data-auth="pending" data-ui="loading">
+  <body data-page="todos" data-auth="pending" data-ui="loading">
     <div class="aurora aurora-one"></div>
     <div class="aurora aurora-two"></div>
     <main class="app-shell">
@@ -26,7 +26,7 @@
           <header class="topbar">
             <div class="topbar-brand">
               <p class="eyebrow">Goal Quest</p>
-              <h2>Create</h2>
+              <h2>Todos</h2>
             </div>
             <button
               id="topbarMenuButton"
@@ -46,63 +46,49 @@
             </div>
           </header>
 
-          <section class="panel panel-featured panel-first create-primary">
+          <section class="hero-card panel-first">
+            <div class="hero-copy">
+              <p class="eyebrow">Focus Module</p>
+              <h1>Keep quick tasks out of your head.</h1>
+              <p class="hero-text">Use the todo tab for fast captures while your bigger goals stay organized as quests.</p>
+            </div>
+          </section>
+
+          <section class="panel panel-featured">
             <div class="panel-heading">
               <div>
-                <p class="section-label">New Quest</p>
-                <h2>Build your next level-up</h2>
+                <p class="section-label">New Todo</p>
+                <h2>Add a quick task</h2>
               </div>
-              <span class="pill">Planner</span>
+              <span class="pill">Lightweight</span>
             </div>
-            <div class="create-intro">
-              <div class="create-intro-card">
-                <span>1</span>
-                <p>Name the outcome you actually want.</p>
-              </div>
-              <div class="create-intro-card">
-                <span>2</span>
-                <p>Give it a theme and a reward so it feels worth returning to.</p>
-              </div>
-            </div>
-            <p class="support-copy">
-              Give the goal a theme and a reward so it feels like a real mission instead of a vague intention.
-            </p>
-            <form id="goalForm" class="goal-form">
+            <form id="todoForm" class="todo-form">
               <label>
-                <span>Goal</span>
-                <input id="goalTitle" name="goalTitle" type="text" placeholder="Learn NLP" required />
+                <span>Todo</span>
+                <input name="todoTitle" type="text" placeholder="Reply to the design review" required />
               </label>
-              <label>
-                <span>Theme</span>
-                <input id="goalTheme" name="goalTheme" type="text" placeholder="Transformers, embeddings..." />
-              </label>
-              <label>
-                <span>Reward</span>
-                <input id="goalReward" name="goalReward" type="text" placeholder="Unlock a weekend break" />
-              </label>
-              <button type="submit" class="primary-button">Start Quest</button>
+              <button type="submit" class="primary-button">Add Todo</button>
             </form>
           </section>
 
-          <section class="panel create-secondary">
+          <section class="stats-grid todo-summary" id="todoSummary"></section>
+
+          <section class="panel">
             <div class="panel-heading">
               <div>
-                <p class="section-label">Active Count</p>
-                <h2>Current momentum</h2>
+                <p class="section-label">Todo Board</p>
+                <h2>What still needs attention</h2>
               </div>
             </div>
-            <p class="support-copy create-secondary-copy">
-              Once you create a quest, it gets its own page where you can add sessions, reminders, and progress.
-            </p>
-            <section class="stats-grid" id="statsGrid"></section>
+            <div id="todoList" class="todo-list"></div>
           </section>
         </div>
 
         <nav class="tabbar">
           <a class="tabbar-link" href="/">Home</a>
-          <a class="tabbar-link is-active" href="/create">Create</a>
+          <a class="tabbar-link" href="/create">Create</a>
           <a class="tabbar-link" href="/quests">Quests</a>
-          <a class="tabbar-link" href="/todos">Todos</a>
+          <a class="tabbar-link is-active" href="/todos">Todos</a>
         </nav>
 
         <div class="auth-loading" id="authLoading">

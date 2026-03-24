@@ -16,18 +16,16 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body data-page="home" data-auth="pending">
+  <body data-page="home" data-auth="pending" data-ui="loading">
     <div class="aurora aurora-one"></div>
     <div class="aurora aurora-two"></div>
     <main class="app-shell">
       <section class="phone-frame">
         <div class="phone-glow"></div>
+
         <div class="app-content">
-          <header class="topbar">
-            <div class="topbar-brand">
-              <p class="eyebrow">Goal Quest</p>
-              <h2>Home</h2>
-            </div>
+          <header id="topbar" class="topbar">
+            <div id="topbarBrand" class="topbar-brand"></div>
             <button
               id="topbarMenuButton"
               class="topbar-menu-button"
@@ -40,45 +38,13 @@
               <span></span>
               <span></span>
             </button>
-            <div id="topbarActions" class="topbar-actions">
-              <button id="notifyButton" class="notify-button" type="button">Enable Alerts</button>
-              <div id="authSlot" class="auth-slot"></div>
-            </div>
+            <div id="topbarActions" class="topbar-actions"></div>
           </header>
 
-          <section class="hero-card">
-            <div class="hero-copy">
-              <p class="eyebrow">Quest Engine</p>
-              <h1>Turn goals into streaks, XP, and momentum.</h1>
-              <p class="hero-text">
-                Track learning missions, stay consistent, and move through focused sessions with reminders.
-              </p>
-            </div>
-            <div class="hero-actions">
-              <a id="primaryCta" class="primary-link" href="/create">Create Goal</a>
-              <a id="secondaryCta" class="secondary-link" href="/quests">View Quests</a>
-            </div>
-          </section>
-
-          <section class="stats-grid" id="statsGrid"></section>
-
-          <section class="panel panel-featured">
-            <div class="panel-heading">
-              <div>
-                <p class="section-label">Live Snapshot</p>
-                <h2>Top quests</h2>
-              </div>
-              <span class="pill">Overview</span>
-            </div>
-            <div id="homeGoalPreview" class="homeGoalPreview home-goal-preview"></div>
-          </section>
+          <div id="viewRoot"></div>
         </div>
 
-        <nav class="tabbar">
-          <a class="tabbar-link is-active" href="/">Home</a>
-          <a class="tabbar-link" href="/create">Create</a>
-          <a class="tabbar-link" href="/quests">Quests</a>
-        </nav>
+        <nav id="tabbar" class="tabbar"></nav>
 
         <div class="auth-loading" id="authLoading">
           <div class="auth-loading-mark"></div>
@@ -86,50 +52,6 @@
         </div>
       </section>
     </main>
-
-    <template id="guestHomeTemplate">
-      <section class="guest-home">
-        <header class="guest-hero">
-          <p class="eyebrow">Goal Quest</p>
-          <h1>Turn ambition into a game you actually want to play.</h1>
-          <p class="hero-text">
-            Sign in to create quests, break them into sessions, track momentum, and keep everything synced to your account.
-          </p>
-          <div class="hero-actions">
-            <a class="google-signin-button google-signin-button-large" href="/auth/google">
-              <span class="google-signin-icon" aria-hidden="true">
-                <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-                  <path fill="#EA4335" d="M9 7.364v3.562h4.95c-.218 1.146-.872 2.117-1.854 2.77l3 2.327c1.746-1.61 2.754-3.982 2.754-6.796 0-.654-.058-1.281-.167-1.863H9z"/>
-                  <path fill="#34A853" d="M3.636 10.713 2.96 11.23.567 13.094A8.99 8.99 0 0 0 9 18c2.43 0 4.468-.803 5.954-2.177l-3-2.327c-.803.54-1.826.859-2.954.859-2.32 0-4.289-1.567-4.995-3.68l-.369.028z"/>
-                  <path fill="#4A90E2" d="M.567 4.906A9 9 0 0 0 0 9c0 1.468.352 2.857.967 4.094l3.07-2.38A5.41 5.41 0 0 1 3.745 9c0-.598.103-1.178.292-1.713l-3.47-2.38z"/>
-                  <path fill="#FBBC05" d="M9 3.58c1.322 0 2.51.455 3.444 1.347l2.583-2.584C13.462.893 11.425 0 9 0A8.99 8.99 0 0 0 .567 4.906l3.47 2.38C4.744 5.173 6.713 3.58 9 3.58z"/>
-                </svg>
-              </span>
-              <span>Sign in with Google</span>
-            </a>
-          </div>
-        </header>
-
-        <section class="guest-grid">
-          <article class="panel guest-panel">
-            <p class="section-label">How It Works</p>
-            <h2>Build goals as quests</h2>
-            <p class="support-copy">Create a goal, attach tasks, set reminders, and earn XP as you complete focused sessions.</p>
-          </article>
-          <article class="panel guest-panel">
-            <p class="section-label">Why It Helps</p>
-            <h2>Keep momentum visible</h2>
-            <p class="support-copy">See progress, keep streak energy high, and make your goals feel structured instead of vague.</p>
-          </article>
-        </section>
-
-        <p class="guest-credit">
-          Created By: Abdul Raheem
-          <a href="https://github.com/i-abdul-raheem" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/i-am-abdul-raheem" target="_blank" rel="noreferrer">LinkedIn</a>
-        </p>
-      </section>
-    </template>
 
     <script src="/app.js"></script>
   </body>

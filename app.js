@@ -17,7 +17,11 @@ const {
   toggleTask,
   markTaskNotified,
   findOrCreateUser,
-  getUserById
+  getUserById,
+  listTodos,
+  createTodo,
+  toggleTodo,
+  deleteTodo
 } = require("./db");
 
 const app = express();
@@ -136,20 +140,8 @@ app.use(async (req, _res, next) => {
 });
 app.use(express.static(publicDir));
 
-app.get("/", (_req, res) => {
+app.get(["/", "/create", "/quests", "/quests/:goalId", "/todos"], (_req, res) => {
   res.sendFile(path.join(publicDir, "index.html"));
-});
-
-app.get("/create", (_req, res) => {
-  res.sendFile(path.join(publicDir, "create.html"));
-});
-
-app.get("/quests", (_req, res) => {
-  res.sendFile(path.join(publicDir, "quests.html"));
-});
-
-app.get("/quests/:goalId", (_req, res) => {
-  res.sendFile(path.join(publicDir, "quest.html"));
 });
 
 app.get("/health", (_req, res) => {
@@ -359,8 +351,66 @@ app.patch("/api/tasks/:taskId/notified", async (req, res, next) => {
   }
 });
 
+app.get("/api/todos", async (req, res, next) => {
+  try {
+    const todos = await listTodos(req.user.id);
+    res.json({ todos });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/todos", async (req, res, next) => {
+  try {
+    const title = req.body.title?.trim();
+
+    if (!title) {
+      res.status(400).json({ error: "Todo title is required." });
+      return;
+    }
+
+    const todo = await createTodo(req.user.id, title);
+    const todos = await listTodos(req.user.id);
+    res.status(201).json({ todo, todos });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.patch("/api/todos/:todoId/toggle", async (req, res, next) => {
+  try {
+    const todo = await toggleTodo(req.user.id, req.params.todoId);
+
+    if (!todo) {
+      res.status(404).json({ error: "Todo not found." });
+      return;
+    }
+
+    const todos = await listTodos(req.user.id);
+    res.json({ todo, todos });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete("/api/todos/:todoId", async (req, res, next) => {
+  try {
+    const deleted = await deleteTodo(req.user.id, req.params.todoId);
+
+    if (!deleted) {
+      res.status(404).json({ error: "Todo not found." });
+      return;
+    }
+
+    const todos = await listTodos(req.user.id);
+    res.json({ ok: true, todos });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get("*", (_req, res) => {
-  res.redirect("/");
+  res.sendFile(path.join(publicDir, "index.html"));
 });
 
 app.use((error, _req, res, _next) => {

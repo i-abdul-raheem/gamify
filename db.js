@@ -93,8 +93,32 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+const todoSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    completed: {
+      type: Boolean,
+      default: false
+    }
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false }
+  }
+);
+
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 const Goal = mongoose.models.Goal || mongoose.model("Goal", goalSchema);
+const Todo = mongoose.models.Todo || mongoose.model("Todo", todoSchema);
 
 async function connectDatabase() {
   const mongoUri = process.env.MONGODB_URI;
@@ -274,6 +298,56 @@ async function getUserById(userId) {
   return User.findById(userId);
 }
 
+function normalizeTodo(todo) {
+  return {
+    id: todo._id.toString(),
+    title: todo.title,
+    completed: todo.completed,
+    createdAt: todo.createdAt
+  };
+}
+
+async function listTodos(userId) {
+  const todos = await Todo.find({ userId }).sort({ completed: 1, createdAt: -1, _id: -1 });
+  return todos.map(normalizeTodo);
+}
+
+async function createTodo(userId, title) {
+  const todo = await Todo.create({
+    userId,
+    title,
+    completed: false
+  });
+
+  return normalizeTodo(todo);
+}
+
+async function toggleTodo(userId, todoId) {
+  if (!mongoose.isValidObjectId(todoId)) {
+    return null;
+  }
+
+  const todo = await Todo.findOne({ _id: todoId, userId });
+
+  if (!todo) {
+    return null;
+  }
+
+  todo.completed = !todo.completed;
+  await todo.save();
+
+  return normalizeTodo(todo);
+}
+
+async function deleteTodo(userId, todoId) {
+  if (!mongoose.isValidObjectId(todoId)) {
+    return false;
+  }
+
+  const result = await Todo.deleteOne({ _id: todoId, userId });
+  return result.deletedCount > 0;
+}
+
 module.exports = {
   connectDatabase,
   listGoals,
@@ -283,5 +357,9 @@ module.exports = {
   toggleTask,
   markTaskNotified,
   findOrCreateUser,
-  getUserById
+  getUserById,
+  listTodos,
+  createTodo,
+  toggleTodo,
+  deleteTodo
 };
