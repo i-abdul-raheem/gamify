@@ -901,8 +901,10 @@ input:focus {
   z-index: 1;
   display: grid;
   gap: 18px;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   padding-bottom: 8px;
+  align-content: start;
 }
 
 .guest-hero {
@@ -1149,7 +1151,8 @@ body[data-page="home"][data-auth="guest"] .tabbar {
     width: 100%;
     max-width: none;
     margin: 0;
-    align-content: center;
+    align-content: start;
+    padding-bottom: 24px;
   }
 
   .guest-hero {
