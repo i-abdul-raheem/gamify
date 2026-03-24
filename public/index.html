@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Goal Quest" />
+    <title>Goal Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="home">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <main class="app-shell">
+      <section class="phone-frame">
+        <div class="phone-glow"></div>
+        <div class="app-content">
+          <header class="topbar">
+            <div class="topbar-brand">
+              <p class="eyebrow">Goal Quest</p>
+              <h2>Home</h2>
+            </div>
+            <div class="topbar-actions">
+              <button id="notifyButton" class="notify-button" type="button">Enable Alerts</button>
+              <div id="authSlot" class="auth-slot"></div>
+            </div>
+          </header>
+
+          <section class="hero-card">
+            <div class="hero-copy">
+              <p class="eyebrow">Quest Engine</p>
+              <h1>Turn goals into streaks, XP, and momentum.</h1>
+              <p class="hero-text">
+                Track learning missions, stay consistent, and move through focused sessions with reminders.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <a id="primaryCta" class="primary-link" href="/create">Create Goal</a>
+              <a id="secondaryCta" class="secondary-link" href="/quests">View Quests</a>
+            </div>
+          </section>
+
+          <section class="stats-grid" id="statsGrid"></section>
+
+          <section class="panel panel-featured">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Live Snapshot</p>
+                <h2>Top quests</h2>
+              </div>
+              <span class="pill">Overview</span>
+            </div>
+            <div id="homeGoalPreview" class="homeGoalPreview home-goal-preview"></div>
+          </section>
+        </div>
+
+        <nav class="tabbar">
+          <a class="tabbar-link is-active" href="/">Home</a>
+          <a class="tabbar-link" href="/create">Create</a>
+          <a class="tabbar-link" href="/quests">Quests</a>
+        </nav>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

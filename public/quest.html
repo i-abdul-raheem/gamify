@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Goal Quest" />
+    <title>Quest • Goal Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="quest">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <main class="app-shell">
+      <section class="phone-frame">
+        <div class="phone-glow"></div>
+        <div class="app-content">
+          <header class="topbar">
+            <div class="topbar-brand">
+              <p class="eyebrow">Goal Quest</p>
+              <h2 id="questPageHeading">Quest</h2>
+            </div>
+            <div class="topbar-actions">
+              <a class="topbar-link" href="/quests">Back</a>
+              <div id="authSlot" class="auth-slot"></div>
+            </div>
+          </header>
+
+          <section id="questHero" class="hero-card panel-first"></section>
+
+          <section class="panel panel-featured">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">New Task</p>
+                <h2>Add a session</h2>
+              </div>
+              <span class="pill">Detail</span>
+            </div>
+            <form id="taskForm" class="task-form">
+              <label>
+                <span>Task name</span>
+                <input name="taskTitle" type="text" placeholder="Read attention mechanism notes" required />
+              </label>
+              <div class="task-form-row">
+                <label>
+                  <span>Minutes</span>
+                  <input name="taskDuration" type="number" min="5" step="5" value="30" required />
+                </label>
+                <label>
+                  <span>Reminder</span>
+                  <input name="taskReminder" type="datetime-local" />
+                </label>
+              </div>
+              <button type="submit" class="primary-button">Add Task</button>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Task Board</p>
+                <h2>Work queue</h2>
+              </div>
+            </div>
+            <div id="taskBoard" class="task-list"></div>
+          </section>
+        </div>
+
+        <nav class="tabbar">
+          <a class="tabbar-link" href="/">Home</a>
+          <a class="tabbar-link" href="/create">Create</a>
+          <a class="tabbar-link is-active" href="/quests">Quests</a>
+        </nav>
+      </section>
+    </main>
+
+    <template id="taskItemTemplate">
+      <div class="task-item">
+        <button class="task-toggle" type="button" aria-label="Toggle task completion"></button>
+        <div class="task-copy">
+          <strong class="task-title"></strong>
+          <p class="task-detail"></p>
+        </div>
+        <div class="task-points"></div>
+      </div>
+    </template>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

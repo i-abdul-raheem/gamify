@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Goal Quest" />
+    <title>Quests • Goal Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="quests">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <main class="app-shell">
+      <section class="phone-frame">
+        <div class="phone-glow"></div>
+        <div class="app-content">
+          <header class="topbar">
+            <div class="topbar-brand">
+              <p class="eyebrow">Goal Quest</p>
+              <h2>All Quests</h2>
+            </div>
+            <div class="topbar-actions">
+              <a class="topbar-link" href="/create">New Goal</a>
+              <div id="authSlot" class="auth-slot"></div>
+            </div>
+          </header>
+
+          <section class="panel panel-first minimal-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Directory</p>
+                <h2>Choose a quest</h2>
+              </div>
+              <span class="pill">Minimal</span>
+            </div>
+            <div id="goalsList" class="quest-directory"></div>
+          </section>
+        </div>
+
+        <nav class="tabbar">
+          <a class="tabbar-link" href="/">Home</a>
+          <a class="tabbar-link" href="/create">Create</a>
+          <a class="tabbar-link is-active" href="/quests">Quests</a>
+        </nav>
+      </section>
+    </main>
+
+    <template id="directoryItemTemplate">
+      <a class="directory-item" href="#">
+        <div class="directory-copy">
+          <p class="goal-theme"></p>
+          <h3 class="directory-title"></h3>
+        </div>
+        <div class="directory-meta">
+          <span class="directory-progress"></span>
+          <strong class="directory-xp"></strong>
+        </div>
+      </a>
+    </template>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

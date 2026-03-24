@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Goal Quest" />
+    <title>Create Goal • Goal Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="create">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <main class="app-shell">
+      <section class="phone-frame">
+        <div class="phone-glow"></div>
+        <div class="app-content">
+          <header class="topbar">
+            <div class="topbar-brand">
+              <p class="eyebrow">Goal Quest</p>
+              <h2>Create</h2>
+            </div>
+            <div class="topbar-actions">
+              <a class="topbar-link" href="/quests">All Quests</a>
+              <div id="authSlot" class="auth-slot"></div>
+            </div>
+          </header>
+
+          <section class="panel panel-featured panel-first create-primary">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">New Quest</p>
+                <h2>Build your next level-up</h2>
+              </div>
+              <span class="pill">Planner</span>
+            </div>
+            <div class="create-intro">
+              <div class="create-intro-card">
+                <span>1</span>
+                <p>Name the outcome you actually want.</p>
+              </div>
+              <div class="create-intro-card">
+                <span>2</span>
+                <p>Give it a theme and a reward so it feels worth returning to.</p>
+              </div>
+            </div>
+            <p class="support-copy">
+              Give the goal a theme and a reward so it feels like a real mission instead of a vague intention.
+            </p>
+            <form id="goalForm" class="goal-form">
+              <label>
+                <span>Goal</span>
+                <input id="goalTitle" name="goalTitle" type="text" placeholder="Learn NLP" required />
+              </label>
+              <label>
+                <span>Theme</span>
+                <input id="goalTheme" name="goalTheme" type="text" placeholder="Transformers, embeddings..." />
+              </label>
+              <label>
+                <span>Reward</span>
+                <input id="goalReward" name="goalReward" type="text" placeholder="Unlock a weekend break" />
+              </label>
+              <button type="submit" class="primary-button">Start Quest</button>
+            </form>
+          </section>
+
+          <section class="panel create-secondary">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Active Count</p>
+                <h2>Current momentum</h2>
+              </div>
+            </div>
+            <p class="support-copy create-secondary-copy">
+              Once you create a quest, it gets its own page where you can add sessions, reminders, and progress.
+            </p>
+            <section class="stats-grid" id="statsGrid"></section>
+          </section>
+        </div>
+
+        <nav class="tabbar">
+          <a class="tabbar-link" href="/">Home</a>
+          <a class="tabbar-link is-active" href="/create">Create</a>
+          <a class="tabbar-link" href="/quests">Quests</a>
+        </nav>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
