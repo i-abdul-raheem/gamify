@@ -256,37 +256,6 @@ async function findOrCreateUser(profile) {
       displayName: profile.displayName || "Goal Quest User",
       avatarUrl: profile.photos?.[0]?.value || ""
     });
-
-    await createGoal(user._id, {
-      title: "Learn NLP",
-      theme: "Language systems",
-      reward: "Coffee and a long walk"
-    });
-
-    const goals = await listGoals(user._id);
-    const firstGoal = goals[0];
-
-    if (firstGoal) {
-      await createTask(user._id, firstGoal.id, {
-        title: "Study tokenization basics",
-        duration: 25,
-        reminderAt: ""
-      });
-
-      const refreshedGoals = await listGoals(user._id);
-      const refreshedGoal = refreshedGoals[0];
-      const task = refreshedGoal?.tasks.find((entry) => entry.title === "Study tokenization basics");
-
-      if (task) {
-        await toggleTask(user._id, task.id);
-      }
-
-      await createTask(user._id, firstGoal.id, {
-        title: "Summarize transformer architecture",
-        duration: 40,
-        reminderAt: ""
-      });
-    }
   } else {
     user.email = profile.emails?.[0]?.value || user.email;
     user.displayName = profile.displayName || user.displayName;

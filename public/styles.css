@@ -1033,7 +1033,7 @@ body[data-page="home"][data-auth="guest"] .tabbar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(340px, 0.72fr);
     grid-template-rows: minmax(0, 1fr) auto;
-    gap: 18px;
+    gap: 28px;
     align-items: stretch;
   }
 
@@ -1041,6 +1041,7 @@ body[data-page="home"][data-auth="guest"] .tabbar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(340px, 0.72fr);
     grid-column: 1 / -1;
+    column-gap: 28px;
     min-height: 0;
     overflow: auto;
   }
