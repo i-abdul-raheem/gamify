@@ -135,11 +135,19 @@ a {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 9999;
+  z-index: 120;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 14px 16px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(12, 26, 45, 0.96), rgba(8, 19, 34, 0.92)),
+    rgba(8, 19, 34, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
   margin-bottom: 16px;
   min-width: 0;
 }
