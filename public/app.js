@@ -8,6 +8,9 @@ const page = document.body.dataset.page;
 const notifyButton = document.querySelector("#notifyButton");
 const authSlot = document.querySelector("#authSlot");
 const authLoading = document.querySelector("#authLoading");
+const topbar = document.querySelector(".topbar");
+const topbarMenuButton = document.querySelector("#topbarMenuButton");
+const topbarActions = document.querySelector("#topbarActions");
 const primaryCta = document.querySelector("#primaryCta");
 const secondaryCta = document.querySelector("#secondaryCta");
 const goalForm = document.querySelector("#goalForm");
@@ -25,6 +28,8 @@ const directoryItemTemplate = document.querySelector("#directoryItemTemplate");
 initialize();
 
 async function initialize() {
+  setupTopbarMenu();
+
   if (notifyButton) {
     notifyButton.addEventListener("click", handleNotifications);
   }
@@ -51,6 +56,44 @@ async function initialize() {
     setInterval(processReminders, 30000);
     processReminders();
   }
+}
+
+function setupTopbarMenu() {
+  if (!topbar || !topbarMenuButton || !topbarActions) {
+    return;
+  }
+
+  topbarMenuButton.addEventListener("click", () => {
+    const isOpen = topbar.dataset.menuOpen === "true";
+    setTopbarMenuState(!isOpen);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!topbar.contains(event.target)) {
+      setTopbarMenuState(false);
+    }
+  });
+
+  topbarActions.addEventListener("click", (event) => {
+    if (window.innerWidth <= 640 && event.target.closest("a, button")) {
+      setTopbarMenuState(false);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 640) {
+      setTopbarMenuState(false);
+    }
+  });
+}
+
+function setTopbarMenuState(isOpen) {
+  if (!topbar || !topbarMenuButton) {
+    return;
+  }
+
+  topbar.dataset.menuOpen = isOpen ? "true" : "false";
+  topbarMenuButton.setAttribute("aria-expanded", String(isOpen));
 }
 
 function isProtectedPage() {
