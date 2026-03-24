@@ -131,8 +131,6 @@ app.get("/auth/google", (req, res, next) => {
     return;
   }
 
-  req.session.oauthReturnMode = req.query.mode === "popup" ? "popup" : "redirect";
-
   passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next);
 });
 
@@ -148,54 +146,7 @@ app.get(
       failureRedirect: "/?authError=google"
     })(req, res, next);
   },
-  (req, res) => {
-    const returnMode = req.session.oauthReturnMode || "redirect";
-    delete req.session.oauthReturnMode;
-
-    if (returnMode === "popup") {
-      res.type("html").send(`<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Signing in…</title>
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #07111f;
-        color: #f6f1e8;
-        font-family: Poppins, sans-serif;
-      }
-
-      p {
-        margin: 0;
-        opacity: 0.82;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Finishing sign-in…</p>
-    <script>
-      (function () {
-        var target = ${JSON.stringify(googleCallbackUrl ? new URL(googleCallbackUrl).origin : "")};
-
-        if (window.opener && !window.opener.closed) {
-          window.opener.postMessage({ type: "goalquest:auth-complete" }, target || window.location.origin);
-          window.close();
-          return;
-        }
-
-        window.location.replace("/quests");
-      })();
-    </script>
-  </body>
-</html>`);
-      return;
-    }
-
+  (_req, res) => {
     res.redirect("/quests");
   }
 );
