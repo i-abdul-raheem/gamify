@@ -133,8 +133,9 @@ a {
 }
 
 .topbar {
-  position: relative;
-  z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -324,7 +325,7 @@ a {
 }
 
 .hero-card {
-  overflow: hidden;
+  /* overflow: hidden; */
   background:
     linear-gradient(145deg, rgba(255, 191, 105, 0.12), transparent 34%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
@@ -364,7 +365,7 @@ h3 {
 
 h1 {
   font-size: clamp(2.5rem, 8vw, 3.7rem);
-  max-width: 11ch;
+  /* max-width: 11ch; */
 }
 
 h2 {
@@ -377,7 +378,7 @@ h3 {
 
 .hero-text {
   margin: 14px 0 18px;
-  max-width: 28ch;
+  /* max-width: 28ch; */
   color: var(--muted);
   line-height: 1.5;
 }
@@ -395,11 +396,11 @@ h3 {
 }
 
 body[data-page="home"] .hero-card h1 {
-  max-width: 16ch;
+  /* max-width: 16ch; */
 }
 
 body[data-page="home"] .hero-card .hero-text {
-  max-width: 56ch;
+  /* max-width: 56ch; */
 }
 
 body[data-page="home"] .hero-card {
@@ -1111,7 +1112,7 @@ body[data-page="home"][data-auth="guest"] .tabbar {
 
   body[data-page="home"] .hero-card h1 {
     font-size: clamp(2.9rem, 6vw, 4.8rem);
-    max-width: 13ch;
+    /* max-width: 13ch; */
   }
 
   body[data-page="home"] .hero-actions {
@@ -1175,8 +1176,6 @@ body[data-page="home"][data-auth="guest"] .tabbar {
   body[data-page="create"] .panel:not(.panel-featured) {
     grid-column: 2;
     margin-top: 0;
-    position: sticky;
-    top: 28px;
   }
 
   body[data-page="create"] .create-secondary .stats-grid {
@@ -1223,8 +1222,6 @@ body[data-page="home"][data-auth="guest"] .tabbar {
   body[data-page="quest"] .panel-featured {
     grid-column: 2;
     margin-top: 0;
-    position: sticky;
-    top: 28px;
   }
 
   body[data-page="quest"] .tabbar {
