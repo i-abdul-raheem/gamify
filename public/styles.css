@@ -1296,11 +1296,11 @@ body[data-page="home"][data-auth="guest"] .tabbar {
   .topbar-actions {
     position: fixed;
     top: calc(env(safe-area-inset-top) + 76px);
-    right: 14px;
-    left: auto;
+    right: calc(env(safe-area-inset-right) + 14px);
+    left: calc(env(safe-area-inset-left) + 14px);
     display: none;
-    width: min(270px, calc(100vw - 28px));
-    max-width: none;
+    width: auto;
+    max-width: 270px;
     padding: 12px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.08);

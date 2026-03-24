@@ -24,11 +24,13 @@ const questPageHeading = document.querySelector("#questPageHeading");
 const taskBoard = document.querySelector("#taskBoard");
 const taskTemplate = document.querySelector("#taskItemTemplate");
 const directoryItemTemplate = document.querySelector("#directoryItemTemplate");
+let remindersIntervalId = null;
 
 initialize();
 
 async function initialize() {
   setupTopbarMenu();
+  setupGoogleAuth();
 
   if (notifyButton) {
     notifyButton.addEventListener("click", handleNotifications);
@@ -53,7 +55,7 @@ async function initialize() {
 
   if (state.user) {
     await loadPageData();
-    setInterval(processReminders, 30000);
+    remindersIntervalId = window.setInterval(processReminders, 30000);
     processReminders();
   }
 }
@@ -94,6 +96,63 @@ function setTopbarMenuState(isOpen) {
 
   topbar.dataset.menuOpen = isOpen ? "true" : "false";
   topbarMenuButton.setAttribute("aria-expanded", String(isOpen));
+}
+
+function setupGoogleAuth() {
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest(".js-google-auth");
+
+    if (!trigger) {
+      return;
+    }
+
+    event.preventDefault();
+    startGoogleAuth();
+  });
+
+  window.addEventListener("message", async (event) => {
+    if (event.origin !== window.location.origin || event.data?.type !== "goalquest:auth-complete") {
+      return;
+    }
+
+    await handleGoogleAuthComplete();
+  });
+}
+
+function startGoogleAuth() {
+  const popup = window.open(
+    "/auth/google?mode=popup",
+    "goalquest-google-auth",
+    "popup=yes,width=520,height=720,noopener=no,noreferrer=no"
+  );
+
+  if (!popup) {
+    window.location.href = "/auth/google";
+    return;
+  }
+
+  popup.focus();
+}
+
+async function handleGoogleAuthComplete() {
+  await refreshAuthState();
+  render();
+
+  if (!state.user) {
+    return;
+  }
+
+  if (remindersIntervalId) {
+    window.clearInterval(remindersIntervalId);
+  }
+
+  await loadPageData();
+  remindersIntervalId = window.setInterval(processReminders, 30000);
+  processReminders();
+
+  if (page === "home") {
+    window.location.href = "/quests";
+  }
 }
 
 function isProtectedPage() {
@@ -324,7 +383,7 @@ function renderAuthControls() {
 
   if (!state.user) {
     authSlot.innerHTML = `
-      <a class="google-signin-button" href="/auth/google">
+      <a class="google-signin-button js-google-auth" href="/auth/google">
         <span class="google-signin-icon" aria-hidden="true">
           <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
             <path fill="#EA4335" d="M9 7.364v3.562h4.95c-.218 1.146-.872 2.117-1.854 2.77l3 2.327c1.746-1.61 2.754-3.982 2.754-6.796 0-.654-.058-1.281-.167-1.863H9z"/>
@@ -358,6 +417,7 @@ function renderHomeCtas() {
   if (state.user) {
     primaryCta.textContent = "Create Goal";
     primaryCta.href = "/create";
+    primaryCta.classList.remove("js-google-auth");
     secondaryCta.textContent = "View Quests";
     secondaryCta.href = "/quests";
     return;
@@ -365,6 +425,7 @@ function renderHomeCtas() {
 
   primaryCta.textContent = "Continue with Google";
   primaryCta.href = "/auth/google";
+  primaryCta.classList.add("js-google-auth");
   secondaryCta.textContent = "How It Works";
   secondaryCta.href = "#homeGoalPreview";
 }
@@ -641,7 +702,7 @@ function getGoalIdFromPath() {
 }
 
 function redirectToGoogleAuth() {
-  window.location.href = "/auth/google";
+  startGoogleAuth();
 }
 
 function redirectToHome() {
